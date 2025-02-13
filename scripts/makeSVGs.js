@@ -1,6 +1,5 @@
 const fs = require("fs");
 const path = require("path");
-const SVGPathCommander = require("svg-path-commander");
 const {
     DOMAIN,
 } = require("./constants");
@@ -24,17 +23,17 @@ async function make() {
         const selectedSymbol = symbolSet.symbols[sf_name]["regular"];
 
         const svg = `
-            <svg
-                viewBox={0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}}
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    fill="inherit"
-                    d={selectedSymbol.path}
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                />
-            </svg>
+<svg
+    viewBox={0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}}
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <path
+        fill="inherit"
+        d="${selectedSymbol.path}"
+        fillRule="evenodd"
+        clipRule="evenodd"
+    />
+</svg>
         `;
 
         writeFile(`${__dirname}/../custom_components/${DOMAIN}/data/regular/${sf_name}.svg`, svg);
