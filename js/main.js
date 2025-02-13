@@ -9,7 +9,10 @@ const preProcessIcon = async (iconSet, iconName) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
 
-    if (!doc || !doc.querySelector("svg")) return {};
+    if (!doc || !doc.querySelector("svg")) {
+        console.log("SF Symbols SVG: invalid icon");
+        return {};
+    }
 
     const viewBox = doc.querySelector("svg").getAttribute("viewBox");
     const _paths = doc.querySelectorAll("path");

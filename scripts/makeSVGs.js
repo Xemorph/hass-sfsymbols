@@ -21,20 +21,7 @@ async function make() {
 
     for (let sf_name in symbolSet.symbols) {
         const selectedSymbol = symbolSet.symbols[sf_name]["regular"];
-
-        const svg = `
-<svg
-    viewBox="0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}"
-    xmlns="http://www.w3.org/2000/svg"
->
-    <path
-        fill="inherit"
-        d="${selectedSymbol.path}"
-        fillRule="evenodd"
-        clipRule="evenodd"
-    />
-</svg>
-        `;
+        const svg = `<svg viewBox="0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}" xmlns="http://www.w3.org/2000/svg"><path d="${selectedSymbol.path}" /></svg>`;
 
         writeFile(`${__dirname}/../custom_components/${DOMAIN}/data/regular/${sf_name}.svg`, svg);
     }
