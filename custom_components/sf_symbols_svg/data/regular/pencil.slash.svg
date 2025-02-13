@@ -1,0 +1,13 @@
+
+            <svg
+                viewBox={0 0 21.78873385943198 21.645615138171554}
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    fill="inherit"
+                    d={selectedSymbol.path}
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                />
+            </svg>
+        

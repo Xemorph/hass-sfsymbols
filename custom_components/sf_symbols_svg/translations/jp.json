@@ -1,0 +1,9 @@
+{
+    "title": "SFシンボルSVG",
+    "config": {
+        "abort": {
+            "single_instance_allowed": "SFシンボルSVGの構成は1つのみとする。"
+        },
+        "step": {}
+    }
+}
