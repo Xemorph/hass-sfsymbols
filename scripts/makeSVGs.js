@@ -24,7 +24,7 @@ async function make() {
 
         const svg = `
 <svg
-    viewBox={0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}}
+    viewBox="0 0 ${selectedSymbol.geometry.width} ${selectedSymbol.geometry.height}"
     xmlns="http://www.w3.org/2000/svg"
 >
     <path
