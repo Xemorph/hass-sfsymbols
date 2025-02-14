@@ -92,7 +92,7 @@ customElements.whenDefined("ha-icon").then((HaIcon) => {
         await el?.updateComplete;
   
         this._path = undefined;
-        this._badgePath = undefined;
+        this._secondaryPath = undefined;
   
         const root = el?.shadowRoot.querySelector("svg");
         root?.appendChild(icon.innerSVG.cloneNode(true));
