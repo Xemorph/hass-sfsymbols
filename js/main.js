@@ -22,7 +22,7 @@ const preProcessIcon = async (iconSet, iconName) => {
     const paths = {};
 
     let path = undefined;
-    let badgePath = undefined;
+    let secondaryPath = undefined;
     let sumpath = "";
 
     for (const pth of _paths) {
@@ -30,7 +30,7 @@ const preProcessIcon = async (iconSet, iconName) => {
 
         const cls = pth.classList[0];
         if (PATH_CLASSES[cls] == "base") path = pth.getAttribute("d");
-        if (PATH_CLASSES[cls] == "badge") badgePath = pth.getAttribute("d");
+        if (PATH_CLASSES[cls] == "badge") secondaryPath = pth.getAttribute("d");
     }
     path = path ?? sumpath;
     
@@ -44,7 +44,7 @@ const preProcessIcon = async (iconSet, iconName) => {
     if (innerSVG?.getElementsByTagName("script").length) innerSVG = undefined;
 /**/
 
-    return { viewBox, path, badgePath, paths: sumpath, format, innerSVG };
+    return { viewBox, path, secondaryPath, paths: sumpath, format, innerSVG };
 };
 
 const getIcon = (iconSet, iconName) => {
