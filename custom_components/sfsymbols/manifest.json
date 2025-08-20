@@ -1,0 +1,11 @@
+{
+  "codeowners": ["@Xemorph"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/Xemorph/hass-sfsymbols",
+  "domain": "sfsymbols",
+  "iot_class": "local_polling",
+  "name": "SF Symbols",
+  "requirements": [],
+  "version": "1.0.4"
+}
