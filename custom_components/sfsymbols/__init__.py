@@ -21,12 +21,17 @@ class ListingView(HomeAssistantView):
     def __init__(self, url, iconpath):
         self.url = url
         self.iconpath = iconpath
-        self.name = "Icon Listing"
+        self.name = "SFSymbols Listing"
 
     async def get(self, request):
         """Handle GET request asynchronously."""
         hass = request.app["hass"]  # Get Home Assistant instance
+        LOGGER.debug("SFSymbols listing requested at %s", self.url)
+
+        # Run os.walk() in a separate thread
         icons = await hass.async_add_executor_job(self._lookup_icons)
+
+        LOGGER.debug("SFSymbols found: %s", icons)
         return self.json(icons)
 
     def _lookup_icons(self):
@@ -35,7 +40,7 @@ class ListingView(HomeAssistantView):
         for dirpath, _, filenames in walk(self.iconpath):
             icons.extend(
                 [
-                    {"name": path.join(dirpath[len(self.iconpath) :].lstrip("/"), fn[:-4])}
+                    {"name": path.join(dirpath[len(self.iconpath):], fn[:-4])}
                     for fn in filenames if fn.endswith(".svg")
                 ]
             )
@@ -50,22 +55,21 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     # Register extra module URL
     hass.data.setdefault(DATA_EXTRA_MODULE_URL, set()).add(LOADER_URL)
 
-    for iset in ["regular"]:
-        await hass.http.async_register_static_paths(
-            [
-                StaticPathConfig(
-                    ICONS_URL + "/" + iset,
-                    hass.config.path(ICONS_PATH + "/" + iset),
-                    True,
-                )
-            ]
+    # Register the icons path asynchronously
+    await hass.http.async_register_static_paths([
+        StaticPathConfig(
+            ICONS_URL + "/regular",
+            hass.config.path(ICONS_PATH + "/regular"),
+            True,
         )
-        hass.http.register_view(
-            ListingView(
-                ICONLIST_URL + "/" + iset,
-                hass.config.path(ICONS_PATH + "/" + iset),
-            )
+    ])
+    # Register the view for icons
+    hass.http.register_view(
+        ListingView(
+            ICONLIST_URL + "/regular",
+            hass.config.path(ICONS_PATH + "/regular"),
         )
+    )
 
     return True
 
