@@ -45,7 +45,7 @@ class ListingView(HomeAssistantView):
             )
         return icons
 
-async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+async def async_setup(hass, config):
     """Set up the SF Symbols component."""
     await hass.http.async_register_static_paths(
         [StaticPathConfig(LOADER_URL, hass.config.path(LOADER_PATH), True)]
@@ -81,6 +81,6 @@ async def async_setup_entry(hass, entry):
 async def async_remove_entry(hass, entry):
     return True
 
-async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_migrate_entry(hass, entry):
     """Migrate old entry."""
     return True
