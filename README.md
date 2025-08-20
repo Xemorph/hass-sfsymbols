@@ -1,3 +1,3 @@
-# SF Symbols SVG for Home Assistant
+# SF Symbols for Home Assistant
 
 ## Installation

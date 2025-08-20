@@ -1,0 +1,83 @@
+import logging
+
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.components.frontend import add_extra_js_url
+from homeassistant.components.http import StaticPathConfig
+from homeassistant.components.http.view import HomeAssistantView
+from homeassistant.core import async_get_hass
+from homeassistant.helpers import config_validation as cv
+
+from .const import DOMAIN, DATA_EXTRA_MODULE_URL, LOADER_URL, LOADER_PATH, ICONS_URL, ICONLIST_URL, ICONS_PATH
+
+LOGGER = logging.getLogger(__name__)
+
+CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
+
+class ListingView(HomeAssistantView):
+
+    requires_auth = False
+
+    def __init__(self, url, iconpath):
+        self.url = url
+        self.iconpath = iconpath
+        self.name = "Icon Listing"
+
+    async def get(self, request):
+        """Handle GET request asynchronously."""
+        hass = request.app["hass"]  # Get Home Assistant instance
+        icons = await hass.async_add_executor_job(self._lookup_icons)
+        return self.json(icons)
+
+    def _lookup_icons(self):
+        """Scan the icon directory synchronously but offload it from the event loop."""
+        icons = []
+        for dirpath, _, filenames in walk(self.iconpath):
+            icons.extend(
+                [
+                    {"name": path.join(dirpath[len(self.iconpath) :].lstrip("/"), fn[:-4])}
+                    for fn in filenames if fn.endswith(".svg")
+                ]
+            )
+        return icons
+
+async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+    """Set up the SF Symbols component."""
+    await hass.http.async_register_static_paths(
+        [StaticPathConfig(LOADER_URL, hass.config.path(LOADER_PATH), True)]
+    )
+
+    # Register extra module URL
+    hass.data.setdefault(DATA_EXTRA_MODULE_URL, set()).add(LOADER_URL)
+
+    for iset in ["regular"]:
+        await hass.http.async_register_static_paths(
+            [
+                StaticPathConfig(
+                    ICONS_URL + "/" + iset,
+                    hass.config.path(ICONS_PATH + "/" + iset),
+                    True,
+                )
+            ]
+        )
+        hass.http.register_view(
+            ListingView(
+                ICONLIST_URL + "/" + iset,
+                hass.config.path(ICONS_PATH + "/" + iset),
+            )
+        )
+
+    return True
+
+# Boiler template code
+
+async def async_setup_entry(hass, entry):
+    return True
+
+
+async def async_remove_entry(hass, entry):
+    return True
+
+async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Migrate old entry."""
+    return True

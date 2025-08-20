@@ -1,4 +1,4 @@
-const DOMAIN = "sf_symbols_svg";
+const DOMAIN = "sfsymbols";
 const ICON_STORE = {};
 const PATH_CLASSES = {
     base: "base",
@@ -12,10 +12,7 @@ const preProcessIcon = async (iconSet, iconName) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
 
-    if (!doc || !doc.querySelector("svg")) {
-        console.log(`SF Symbols SVG: Invalid icon '${icon}'`);
-        return {};
-    }
+    if (!doc || !doc.querySelector("svg")) return {};
 
     const viewBox = doc.querySelector("svg").getAttribute("viewBox");
     const _paths = doc.querySelectorAll("path");

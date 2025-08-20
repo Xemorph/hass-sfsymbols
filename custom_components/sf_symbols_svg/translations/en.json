@@ -1,9 +1,0 @@
-{
-    "title": "SF Symbols SVG",
-    "config": {
-        "abort": {
-            "single_instance_allowed": "Only a single configuration of SF Symbols SVG is allowed."
-        },
-        "step": {}
-    }
-}
