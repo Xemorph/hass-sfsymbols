@@ -1,12 +1,11 @@
 import logging
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.components.http.view import HomeAssistantView
-from homeassistant.core import async_get_hass
 from homeassistant.helpers import config_validation as cv
+
+import json
+from os import walk, path
 
 from .const import DOMAIN, DATA_EXTRA_MODULE_URL, LOADER_URL, LOADER_PATH, ICONS_URL, ICONLIST_URL, ICONS_PATH
 
