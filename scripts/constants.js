@@ -16,7 +16,7 @@ const PATH_PRECISION = 2;
 
 const FONT_SIZE = 28;
 
-const DOMAIN = "sf_symbols_svg";
+const DOMAIN = "sfsymbols";
 
 module.exports = {
     SF_SYMBOLS_VERSION,
